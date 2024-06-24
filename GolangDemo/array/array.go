@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 // func printArray(myArray [4]int) {
 // 	for index, value := range myArray {
 // 		fmt.Println("index=", index, "value=", value)
@@ -67,12 +65,30 @@ func main() {
 	// 	fmt.Println("slice1有空间")
 	// }
 
-	// 6.定义切片容量
-	var number = make([]int, 3, 5)
-	fmt.Printf("len=%d,cap=%d,slice=%v\n", len(number), cap(number), number)
+	// 6.切片追加，定义切片容量
+	// var number = make([]int, 3, 5)
+	// fmt.Printf("len=%d,cap=%d,slice=%v\n", len(number), cap(number), number)
 
 	// number = append(number, 2)
 	// number = append(number, 3)
 	// number = append(number, 1)
 	// fmt.Printf("len=%d,cap=%d,slice=%v\n", len(number), cap(number), number)
+
+	// 7.切片的截取
+	// slice := []int{1, 2, 3}
+	// s1 := slice[0:2]
+	// fmt.Println(s1)
+
+	// s1[0] = 100
+	// fmt.Println(slice)
+	// fmt.Println(s1)
+
+	// // 将底层数组的slice一起进行拷贝
+	// s2 := make([]int, 3)
+
+	// // 将s中的值依次拷贝到s2中
+	// copy(s2, slice)
+	// s2[0] = 200
+	// fmt.Println(s2)
+	// fmt.Println(slice)
 }
