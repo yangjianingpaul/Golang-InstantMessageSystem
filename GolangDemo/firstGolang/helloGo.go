@@ -1,24 +1,24 @@
 package main
 
-import (
-	"GolangDemo/lib1"
-	"GolangDemo/lib2"
-	// _ "GolangDemo/lib1"	导入不使用
-	// mylib2 "GolangDemo/lib2"	取别名
-	// . "GolangDemo/lib1"	直接使用包函数
-)
+// import (
+// 	"GolangDemo/lib1"
+// 	"GolangDemo/lib2"
+// 	// _ "GolangDemo/lib1"	Import not used
+// 	// mylib2 "GolangDemo/lib2"	aliasing
+// 	// . "GolangDemo/lib1"	直接使用包函数
+// )
 
-// // 2）声明全局变量，方法一、二、三是可以的
+// // 2）To declare global variables, methods 1, 2, and 3 are OK
 // var gA int = 100
 // var gB = 200
-// 只能够在函数体内声明
+// // It can only be declared in a function body
 // gC:=300
 
 // **********************************************************
 
-// // 3)枚举定义
+// // 3)enumeration definition
 // const (
-// 	//关键字iota，第一行默认值0，之后每行累加1,只能在const()中使用
+// 	//The keyword iota, which defaults to 0 for the first line and increments to 1 for each subsequent line, can only be used in const()
 // 	// BEIJING  = 0
 // 	// SHANGHAI = 1
 // 	// SHENZHEN = 2
@@ -39,7 +39,7 @@ import (
 
 // ************************************************************
 
-// // 4)函数
+// // 4)function
 // func foo1(a string, b int) int {
 // 	fmt.Println("a=", a)
 // 	fmt.Println("b=", b)
@@ -64,29 +64,29 @@ import (
 // 	return
 // }
 
-func main() { //函数的'{'一定是和函数名在同一行的，否则编译错误
-	// //1)golang中的表达式，加不加“;”都可以，建议不加
+func main() { //The '{' of the function must be on the same line as the function name, otherwise it will compile incorrectly
+	// //1)The expression in golang, with or without ";" Either is fine, but not recommended
 	// fmt.Println("hello Go!")
-	// //import倒入time包
+	// //import Pour the time package
 	// time.Sleep(1 * time.Second)
 
 	// **************************************************
 
-	// //2)声明变量：
-	// // 方法一：声明变量 默认值是0
+	// //2)declare variables:
+	// // Method 1: Declare that the default value of the variable is 0
 	// var a int
 	// fmt.Println("a =", a)
 
-	// // 方法二：变量初始化
+	// // Method 2: Variable initialization
 	// var b int = 100
 	// fmt.Println("b =", b)
 
-	// // 方法三：省去变量类型，不推荐
+	// // Method 3: Omit the variable type, not recommended
 	// var c = 100
 	// fmt.Println("c =", c)
 	// fmt.Printf("type of c = %T\n", c) //打印变量类型
 
-	// // 方法四：省去var关键字，自动匹配（常用方法）不支持全局
+	// // Method 4: Omit the var keyword, automatic matching (common method) does not support global
 	// e := 100
 	// fmt.Println("e =", e)
 	// fmt.Printf("type of e = %T\n", e)
@@ -101,7 +101,7 @@ func main() { //函数的'{'一定是和函数名在同一行的，否则编译�
 
 	// // fmt.Println("gA =", gA, "gB =", gB)
 
-	// // 声明多个变量
+	// // Declare multiple variables
 	// var xx, yy int = 100, 200
 	// fmt.Println("xx =", xx, "yy =", yy)
 	// var kk, ll = 100, "abcd"
@@ -116,12 +116,12 @@ func main() { //函数的'{'一定是和函数名在同一行的，否则编译�
 
 	// ***************************************************
 
-	// // 3)常量（只读属性）
+	// // 3)Constant (read-only attribute)
 	// const length int = 10
 
 	// ********************************************************
 
-	// // 4)函数
+	// // 4)function
 	// c := foo1("abc", 555)
 	// fmt.Println("c=", c)
 
@@ -133,10 +133,10 @@ func main() { //函数的'{'一定是和函数名在同一行的，否则编译�
 
 	// ********************************************************
 
-	// 5)init函数
+	// 5)init function
 	lib1.Lib1Test()
 	lib2.Lib2Test()
 
-	// mylib2.Lib2Test()	//取别名
+	// mylib2.Lib2Test()	//aliasing
 	// Lib2Test()
 }

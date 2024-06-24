@@ -14,7 +14,7 @@ func ChangeValue(cityMap map[string]string) {
 }
 
 func main() {
-	// // 1.第一种声明方式，key是string，value也是string
+	// // 1.In the first way, key is a string and value is a string
 	// var myMap1 map[string]string
 	// if myMap1 == nil {
 	// 	fmt.Println("empty map")
@@ -27,7 +27,7 @@ func main() {
 
 	// fmt.Println(myMap1)
 
-	// 2.第二种声明方式，用make给map分配数据空间
+	// 2.The second declaration uses make to allocate data space to a map
 	// var myMap2 map[int]string
 	// myMap2 := make(map[int]string, 10)
 	// myMap2[1] = "java"
@@ -36,7 +36,7 @@ func main() {
 
 	// fmt.Println(myMap2)
 
-	// // 3.第三种声明方式
+	// // 3.The third way to declare
 	// myMap3 := map[string]string{
 	// 	"one":   "php",
 	// 	"two":   "c++",
@@ -44,18 +44,18 @@ func main() {
 	// }
 	// fmt.Println(myMap3)
 
-	// 4.增删改查
+	// 4.CRUD
 	// var cityMap map[string]string
-	// 新增
+	// create
 	cityMap := make(map[string]string)
 	cityMap["China"] = "Beijing"
 	cityMap["Japan"] = "Tokyo"
 	cityMap["USA"] = "NewYork"
-	// 删除
+	// delete
 	delete(cityMap, "China")
 	cityMap["USA"] = "DC"
-	// 查询
+	// read
 	printMap(cityMap)
-	// 修改
+	// update
 	ChangeValue(cityMap)
 }

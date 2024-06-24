@@ -6,7 +6,7 @@
 // 	fmt.Println("myFunc is called...")
 // 	fmt.Println(arg)
 
-// 	// 断言机制
+// 	// Assertion mechanism
 // 	value, ok := arg.(string)
 
 // 	if !ok {

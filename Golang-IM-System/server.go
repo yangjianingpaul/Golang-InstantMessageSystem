@@ -12,14 +12,14 @@ type Server struct {
 	Ip   string
 	Port int
 
-	//在线用户的列表
+	//List of online users
 	OnlineMap map[string]*User
 	mapLock   sync.RWMutex
-	//消息广播的channel
+	//A channel for message broadcasting
 	Message chan string
 }
 
-// 创建一个server的接口
+// Create an interface for the server
 func NewServer(ip string, port int) *Server {
 	server := &Server{
 		Ip:        ip,
@@ -31,12 +31,12 @@ func NewServer(ip string, port int) *Server {
 	return server
 }
 
-// 监听Message广播消息channel的goroutine，一旦有消息就发送给全部的在线user
+// A goroutine that listens to the Message broadcast message channel and sends messages to all online users as soon as they arrive
 func (this *Server) ListenMessager() {
 	for {
 		msg := <-this.Message
 
-		//将msg发送给全部的在线User
+		//msg is sent to all online users
 		this.mapLock.Lock()
 		for _, cli := range this.OnlineMap {
 			cli.C <- msg
@@ -51,17 +51,17 @@ func (this *Server) BroadCast(user *User, msg string) {
 }
 
 func (this *Server) Handler(conn net.Conn) {
-	//当前连接的业务
-	// fmt.Println("连接建立成功")
+	//Currently connected services
+	// fmt.Println("Connection established successfully")
 
 	user := NewUser(conn, this)
 
 	user.Online()
 
-	//监听用户是否活跃的channel
+	//A channel that listens for whether the user is active
 	isLive := make(chan bool)
 
-	//接受客户端发送的消息
+	//Accepts the message sent by the client
 	go func() {
 		buf := make([]byte, 4096)
 		for {
@@ -76,37 +76,37 @@ func (this *Server) Handler(conn net.Conn) {
 				return
 			}
 
-			//提取用户的消息（去除\n）
+			//Extract the user's message (remove '\n')
 			msg := string(buf[:n-1])
-			//用户针对msg进行消息处理
+			//The user processes messages against msg
 			user.DoMessage(msg)
-			//用户任何消息代表当前用户是活跃的
+			//User Any message indicates that the current user is active
 			isLive <- true
 		}
 	}()
-	//当前handler阻塞
+	//Current handler blocking
 	for {
 		select {
 		case <-isLive:
-			//当前用户是活跃的，应该重置定时器
-			//不做任何事情，为了激活select，更新下面的定时器
+			//The current user is active and the timer should be reset
+			//Without doing anything, in order to activate select, update the timer below
 		case <-time.After(time.Second * 300):
-			//已经超时
-			//将当前的User强制关闭
-			user.sendMsg("你被踢了")
+			//Have timed out
+			//Forcibly disable the current User
+			user.sendMsg("You are forced to quit!")
 
-			//销毁用户资源
+			//Destroy user resources
 			close(user.C)
-			//关闭连接
+			//close connection
 			conn.Close()
-			//退出当前的handler
+			//Exit the current handler
 			// runtime.Goexit()
 			return
 		}
 	}
 }
 
-// 启动服务器的接口
+// Interface for starting the server
 func (this *Server) Start() {
 	//socket lister
 	listener, err := net.Listen("tcp", fmt.Sprintf("%s:%d", this.Ip, this.Port))
@@ -117,7 +117,7 @@ func (this *Server) Start() {
 
 	defer listener.Close()
 
-	//启动监听Message的goroutine
+	//Start a goroutine that listens for messages
 	go this.ListenMessager()
 
 	for {

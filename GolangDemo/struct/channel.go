@@ -2,25 +2,25 @@
 
 // import "fmt"
 
-// // // 1.channel定义
+// // // 1.channel definition
 // // func main() {
 // // 	c := make(chan int)
 // // 	go func() {
 // // 		defer fmt.Println("goroutine end")
 
 // // 		fmt.Println("goroutine running...")
-// // 		c <- 666 //将666发送给c
+// // 		c <- 666 //Send 666 to c
 // // 	}()
 
-// // 	num := <-c //从c中接受数据，并赋值给num
+// // 	num := <-c //Takes data from c and assigns it to num
 
 // // 	fmt.Println("num=", num)
 // // 	fmt.Println("main goroutine ending...")
 // // }
 
-// // // 2.channel已满再写数据就会阻塞
+// // // 2.When the channel is full, write data will be blocked
 // // func main() {
-// // 	c := make(chan int, 3) //带有缓冲的channel
+// // 	c := make(chan int, 3) //channel with buffering
 // // 	fmt.Println("len(c)=", len(c), "cap(c)", cap(c))
 
 // // 	go func() {
@@ -28,7 +28,7 @@
 
 // // 		for i := 0; i < 4; i++ {
 // // 			c <- i
-// // 			fmt.Println("subthread running:发送的元素=", i, "len(c)=", len(c), "cap(c)=", cap(c))
+// // 			fmt.Println("subthread running:Sent element=", i, "len(c)=", len(c), "cap(c)=", cap(c))
 // // 		}
 // // 	}()
 
@@ -42,7 +42,7 @@
 // // 	fmt.Println("main end")
 // // }
 
-// // // 3.channel关闭
+// // // 3.channel off
 // // func main() {
 // // 	c := make(chan int)
 
@@ -50,11 +50,11 @@
 // // 		for i := 0; i < 5; i++ {
 // // 			c <- i
 // // 		}
-// // 		close(c) //关闭一个channel
+// // 		close(c) //Close a channel
 // // 	}()
 
 // // 	// for {
-// // 	// 	// ok如果为true表示channel没有关闭，如果为false表示channel已经关闭
+// // 	// 	// ok If true indicates that the channel is not closed, if false indicates that the channel is closed
 // // 	// 	if data, ok := <-c; ok {
 // // 	// 		fmt.Println(data)
 // // 	// 	} else {
@@ -62,7 +62,7 @@
 // // 	// 	}
 // // 	// }
 
-// // 	// for循环简化
+// // 	// for loop simplification
 // // 	for data := range c {
 // // 		fmt.Println(data)
 // // 	}
@@ -70,14 +70,14 @@
 // // 	fmt.Println("Main Finished...")
 // // }
 
-// // 4.select/case处理多路channel
+// // 4.select/case Processing multiple channels
 // func fibonacii(c, quit chan int) {
 // 	x, y := 1, 1
 
 // 	for {
 // 		select {
 // 		case c <- x:
-// 			//如果c可写，则该case就会进来
+// 			//If c is writable, the case will come in
 // 			x = y
 // 			y = x + y
 

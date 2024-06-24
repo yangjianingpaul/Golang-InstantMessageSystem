@@ -5,7 +5,7 @@
 // 	"time"
 // )
 
-// // 子goroutine
+// // sub goroutine
 // func newTask() {
 // 	i := 0
 // 	for {
@@ -15,9 +15,9 @@
 // 	}
 // }
 
-// // 主goroutine
+// // main goroutine
 // func main() {
-// 	// 创建一个go程，去执行newTask()流程
+// 	// Create a go procedure to execute the newTask() process
 // 	go newTask()
 
 // 	i := 0

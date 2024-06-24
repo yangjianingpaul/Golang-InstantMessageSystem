@@ -22,17 +22,17 @@
 // }
 
 // func DoFiledAndMethod(input interface{}) {
-// 	// 获取input的type
+// 	// Gets the type of input
 // 	inputType := reflect.TypeOf(input)
 // 	fmt.Println("inputType is:", inputType)
-// 	// 获取input的value
+// 	// Gets the value of input
 // 	inputValue := reflect.ValueOf(input)
 // 	fmt.Println("inputValue is:", inputValue)
 
-// 	// 通过type获取里面的字段
-// 	// 1.获取interface的reflect.type()方法，通过type得到NumField，进行遍历
-// 	// 2.得到每一个field，数据类型
-// 	// 3.通过field有一个Interface()方法得到对应的value
+// 	// Get the fields by type
+// 	// 1.Obtain the reflect.type() method of interface, obtain NumField by type, and traverse
+// 	// 2.Get each field, data type
+// 	// 3.The field has an Interface() method to get the corresponding value
 // 	// for i := 0; i < inputType.NumField(); i++ {
 // 	// 	field := inputType.Field(i)
 // 	// 	value := inputValue.Field(i).Interface()
@@ -40,7 +40,7 @@
 // 	// 	fmt.Printf("%s:%v=%v\n", field.Name, field.Type, value)
 // 	// }
 
-// 	// 通过type获取里面的方法，调用
+// 	// Get the method inside by type, call
 // 	for i := 0; i < inputType.NumMethod(); i++ {
 // 		m := inputType.Method(i)
 // 		fmt.Println("%s:%v\n", m.Name, m.Type)

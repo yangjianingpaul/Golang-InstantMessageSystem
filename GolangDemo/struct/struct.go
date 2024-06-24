@@ -2,7 +2,7 @@
 
 // import "fmt"
 
-// // // 1.定义结构体
+// // // 1.Define structure
 // // type Book struct {
 // // 	title string
 // // 	auth  string
@@ -16,7 +16,7 @@
 // // 	book.auth = "777"
 // // }
 
-// // // 2.封装性，类名、属性名、方法名，首字母大写，表示对外（其他包）可以访问，否则ben bao fang wen
+// // // 2.Encapsulation: class name, attribute name, and method name, with the first letter uppercase, indicates that external (other packages) can access it. Otherwise, this package can access it
 // // type Hero struct {
 // // 	Name  string
 // // 	Ad    int
@@ -37,7 +37,7 @@
 // // 	this.Name = newName
 // // }
 
-// // // 3.继承
+// // // 3.inherit
 // // type Human struct {
 // // 	name string
 // // 	sex  string
@@ -52,11 +52,11 @@
 // // }
 
 // // type SuperMan struct {
-// // 	Human //继承Human类的方法
+// // 	Human //Inherits methods from the Human class
 // // 	level int
 // // }
 
-// // // 重定义Eat()方法
+// // // Redefine the Eat() method
 // // func (this *SuperMan) Eat() {
 // // 	fmt.Println("SuperMan.Eat()")
 // // }
@@ -71,7 +71,7 @@
 // // 	fmt.Println("level =", this.level)
 // // }
 
-// // 4.多态，本质是一个指针
+// // 4.Polymorphism, in essence, is a pointer
 // type AnimalIF interface {
 // 	Sleep()
 // 	GetColor() string
@@ -117,14 +117,14 @@
 // }
 
 // func main() {
-// 	// 1.定义结构体
+// 	// 1.Define structure
 // 	// var book1 Book
 // 	// book1.title = "Golang"
 // 	// book1.auth = "zhang3"
 // 	// changeBook(&book1)
 // 	// fmt.Printf("%v\n", book1)
 
-// 	// // 3.继承
+// 	// // 3.inherit
 // 	// h := Human{"zhang3", "female"}
 // 	// h.Eat()
 // 	// h.Walk()
@@ -140,7 +140,7 @@
 // 	// s.Fly()
 // 	// s.Print()
 
-// 	// 4.多态
+// 	// 4.polymorphic
 // 	var animal AnimalIF
 // 	animal = &Cat{"Green"}
 // 	animal.Sleep()

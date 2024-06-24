@@ -14,7 +14,7 @@ type User struct {
 	server *Server
 }
 
-// 创建一个用户的api
+// Create a user API
 func NewUser(conn net.Conn, server *Server) *User {
 	userAddr := conn.RemoteAddr().String()
 	user := &User{
@@ -25,55 +25,55 @@ func NewUser(conn net.Conn, server *Server) *User {
 
 		server: server,
 	}
-	//启动监听当前user channel消息的goroutine
+	// Start a goroutine that listens for messages on the current user channel
 	go user.ListenMessage()
 	return user
 }
 
-// 用户上线功能
+// User on-line function
 func (this *User) Online() {
-	//用户上线，将用户加入到onlineMap中
+	// The user goes online and is added to onlineMap
 	this.server.mapLock.Lock()
 	this.server.OnlineMap[this.Name] = this
 	this.server.mapLock.Unlock()
 
-	//广播当前用户上线消息
-	this.server.BroadCast(this, "已上线")
+	// Broadcast the message that the current user goes online
+	this.server.BroadCast(this, "Go online")
 }
 
-// 用户下线功能
+// User logout function
 func (this *User) Offline() {
-	//用户下线，将用户从onlineMap中删除
+	//The user is logged out. The user is deleted from onlineMap
 	this.server.mapLock.Lock()
 	delete(this.server.OnlineMap, this.Name)
 	this.server.mapLock.Unlock()
 
-	//广播当前用户下线消息
-	this.server.BroadCast(this, "已下线")
+	// The message that the current user is offline is broadcast
+	this.server.BroadCast(this, "Be offline")
 }
 
-// 给当前User客服端发送消息
+// Sends a message to the current User client
 func (this *User) sendMsg(msg string) {
 	this.conn.Write([]byte(msg))
 }
 
-// 用户处理消息的业务
+// Users process messages
 func (this *User) DoMessage(msg string) {
 	if msg == "who" {
-		//查询当前在线用户都有哪些
+		// Example Query the current online users
 		this.server.mapLock.Lock()
 		for _, user := range this.server.OnlineMap {
-			onlineMsg := "[" + user.Addr + "]" + user.Name + ":" + "在线...\n"
+			onlineMsg := "[" + user.Addr + "]" + user.Name + ":" + "on line...\n"
 			this.sendMsg(onlineMsg)
 		}
 		this.server.mapLock.Unlock()
 	} else if len(msg) > 7 && msg[:7] == "rename|" {
-		//消息格式：rename|张三
+		// message format：Message format: rename|new name
 		newName := strings.Split(msg, "|")[1]
-		//判断name是否存在
+		// Check whether the name exists
 		_, ok := this.server.OnlineMap[newName]
 		if ok {
-			this.sendMsg("当前用户名被使用\n")
+			this.sendMsg("The current user name is used\n")
 		} else {
 			this.server.mapLock.Lock()
 			delete(this.server.OnlineMap, this.Name)
@@ -81,29 +81,29 @@ func (this *User) DoMessage(msg string) {
 			this.server.mapLock.Unlock()
 
 			this.Name = newName
-			this.sendMsg("您已经更新用户名：" + this.Name + "\n")
+			this.sendMsg("You have updated your username：" + this.Name + "\n")
 		}
 	} else if len(msg) > 4 && msg[:3] == "to|" {
-		//消息格式：to|张三｜消息内容
-		//1）获取对方的用户名
+		// Message format: to| recipient name | Message content
+		// 1) Get the user name of the other party
 		remoteName := strings.Split(msg, "|")[1]
 		if remoteName == "" {
-			this.sendMsg("消息格式不正确，请使用\"to|张三｜你好啊")
+			this.sendMsg("The message format is incorrect. Please use \"to| recipient name | Hello")
 			return
 		}
-		//2）根据用户名，得到对方的User对象
+		// 2）Get the User object of the other party based on the user name
 		remoteUser, ok := this.server.OnlineMap[remoteName]
 		if !ok {
-			this.sendMsg("该用户名不存在\n")
+			this.sendMsg("The user name does not exist\n")
 			return
 		}
-		//3）获取消息内容，通过对方的User对象将消息内容发送过去
+		// 3）Get the message content and send the message content through the User object of the other party
 		content := strings.Split(msg, "|")[2]
 		if content == "" {
-			this.sendMsg("无消息内容，请重发\n")
+			this.sendMsg("No message, please resend\n")
 			return
 		}
-		remoteUser.sendMsg(this.Name + "对您说：" + content)
+		remoteUser.sendMsg(this.Name + "Say to you:" + content)
 
 	} else {
 		this.server.BroadCast(this, msg)
@@ -111,7 +111,7 @@ func (this *User) DoMessage(msg string) {
 
 }
 
-// 监听当前User channel的方法，一旦有消息，就直接发送给对端客户端
+// A method of listening to the current User channel and sending messages directly to the peer client once there is a message
 func (this *User) ListenMessage() {
 	for {
 		msg := <-this.C

@@ -13,7 +13,7 @@
 // }
 
 // func main() {
-// 	movie := Movie{"喜剧之王", 2000, 10, []string{"xingye", "zhangbozhi"}}
+// 	movie := Movie{"The King of Comedy", 2000, 10, []string{"xingye", "zhangbozhi"}}
 // 	jsonStr, err := json.Marshal(movie)
 // 	if err != nil {
 // 		fmt.Println("json marshal error", err)

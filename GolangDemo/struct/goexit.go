@@ -7,7 +7,7 @@
 // )
 
 // func main() {
-// 	// 用go创建一个行参为空，返回值为空的一个函数
+// 	// Create a function with go that takes an empty line argument and returns an empty value
 // 	go func() {
 // 		defer fmt.Println("A.defer")
 // 		func() {
@@ -19,13 +19,13 @@
 // 		fmt.Println("A")
 // 	}()
 
-// 	// go创建有参函数
+// 	// go creates a function with arguments
 // 	go func(a int, b int) bool {
 // 		fmt.Println("a =", a, "b =", b)
 // 		return true
 // 	}(10, 20)
 
-// 	// 死循环
+// 	// endless loop
 // 	for {
 // 		time.Sleep(1 * time.Second)
 // 	}
