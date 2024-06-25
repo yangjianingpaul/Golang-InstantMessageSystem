@@ -12,14 +12,14 @@ type Server struct {
 	Ip   string
 	Port int
 
-	//List of online users
+	// List of online users
 	OnlineMap map[string]*User
 	mapLock   sync.RWMutex
-	//A channel for message broadcasting
+	// A channel for message broadcasting
 	Message chan string
 }
 
-// Create an interface for the server
+// An interface of create the server
 func NewServer(ip string, port int) *Server {
 	server := &Server{
 		Ip:        ip,
@@ -51,17 +51,17 @@ func (this *Server) BroadCast(user *User, msg string) {
 }
 
 func (this *Server) Handler(conn net.Conn) {
-	//Currently connected services
+	// Currently connected services
 	// fmt.Println("Connection established successfully")
 
 	user := NewUser(conn, this)
 
 	user.Online()
 
-	//A channel that listens for whether the user is active
+	// A channel that listens for whether the user is active
 	isLive := make(chan bool)
 
-	//Accepts the message sent by the client
+	// Accepts the message sent by the client
 	go func() {
 		buf := make([]byte, 4096)
 		for {
@@ -76,30 +76,31 @@ func (this *Server) Handler(conn net.Conn) {
 				return
 			}
 
-			//Extract the user's message (remove '\n')
+			// Extract the user's message (remove '\n')
 			msg := string(buf[:n-1])
-			//The user processes messages against msg
+			// The user processes messages against msg
 			user.DoMessage(msg)
-			//User Any message indicates that the current user is active
+			// User Any message indicates that the current user is active
 			isLive <- true
 		}
 	}()
-	//Current handler blocking
+
+	// Current handler blocking
 	for {
 		select {
 		case <-isLive:
-			//The current user is active and the timer should be reset
-			//Without doing anything, in order to activate select, update the timer below
+			// The current user is active and the timer should be reset
+			// Without doing anything, in order to activate select, update the timer below
 		case <-time.After(time.Second * 300):
-			//Have timed out
-			//Forcibly disable the current User
+			// Have timed out
+			// Forcibly disable the current User
 			user.sendMsg("You are forced to quit!")
 
-			//Destroy user resources
+			// Destroy user resources
 			close(user.C)
-			//close connection
+			// close connection
 			conn.Close()
-			//Exit the current handler
+			// Exit the current handler
 			// runtime.Goexit()
 			return
 		}
@@ -108,7 +109,7 @@ func (this *Server) Handler(conn net.Conn) {
 
 // Interface for starting the server
 func (this *Server) Start() {
-	//socket lister
+	// socket lister
 	listener, err := net.Listen("tcp", fmt.Sprintf("%s:%d", this.Ip, this.Port))
 	if err != nil {
 		fmt.Println("net.Listen err", err)
@@ -117,20 +118,20 @@ func (this *Server) Start() {
 
 	defer listener.Close()
 
-	//Start a goroutine that listens for messages
+	// Start a goroutine that listens for messages
 	go this.ListenMessager()
 
 	for {
-		//accept
+		// accept
 		conn, err := listener.Accept()
 		if err != nil {
 			fmt.Println("listener accept err:", err)
 			continue
 		}
-		//do handler
 
+		// do handler
 		go this.Handler(conn)
 	}
 
-	//close listen socket
+	// close listen socket
 }

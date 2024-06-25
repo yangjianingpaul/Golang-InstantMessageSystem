@@ -43,7 +43,7 @@ func (this *User) Online() {
 
 // User logout function
 func (this *User) Offline() {
-	//The user is logged out. The user is deleted from onlineMap
+	// The user is logged out. The user is deleted from onlineMap
 	this.server.mapLock.Lock()
 	delete(this.server.OnlineMap, this.Name)
 	this.server.mapLock.Unlock()
@@ -103,7 +103,7 @@ func (this *User) DoMessage(msg string) {
 			this.sendMsg("No message, please resend\n")
 			return
 		}
-		remoteUser.sendMsg(this.Name + "Say to you:" + content)
+		remoteUser.sendMsg(this.Name + "say to you:" + content)
 
 	} else {
 		this.server.BroadCast(this, msg)

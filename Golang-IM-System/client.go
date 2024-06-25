@@ -17,14 +17,13 @@ type Client struct {
 }
 
 func NewClient(serverIp string, serverPort int) *Client {
-	//Create a client object
+	// Create a client object
 	client := &Client{
-
 		ServerIp:   serverIp,
 		ServerPort: serverPort,
 		flag:       999,
 	}
-	//Connect server
+	// Connect server
 	conn, err := net.Dial("tcp", fmt.Sprintf("%s:%d", serverIp, serverPort))
 	if err != nil {
 		fmt.Println("net.Dial error:", err)
@@ -32,14 +31,21 @@ func NewClient(serverIp string, serverPort int) *Client {
 	}
 
 	client.conn = conn
-	//return object
+	// return object
 	return client
 }
 
 // The message returned by the server is processed and displayed directly to the standard output
 func (client *Client) DealResponse() {
-	//Once client.conn has data, it copies it directly to stdout standard output, blocking the listening permanently
+	// Once client.conn has data, it copies it directly to stdout standard output, blocking the listening permanently
 	io.Copy(os.Stdout, client.conn)
+
+	// equivalent code
+	/*for {
+		buf := make([]byte, 4096)
+		client.conn.Read(buf)
+		fmt.Println(buf)
+	}*/
 }
 
 func (client *Client) menu() bool {
@@ -85,7 +91,7 @@ func (client *Client) PrivateChat() {
 		fmt.Scanln(&chatMsg)
 
 		for chatMsg != "exit" {
-			//The message is sent if it is not empty
+			// The message is sent if it is not empty
 			if len(chatMsg) != 0 {
 				sendMsg := "to|" + remoteName + "|" + chatMsg + "\n\n"
 				_, err := client.conn.Write([]byte(sendMsg))
@@ -107,15 +113,15 @@ func (client *Client) PrivateChat() {
 }
 
 func (client *Client) PublicChat() {
-	//Prompts the user for a message
+	// Prompts the user for a message
 	var chatMsg string
 	fmt.Println(">>>>>Please enter the chat content, 'exit' exit.")
-	fmt.Println(&chatMsg)
+	fmt.Scanln(&chatMsg)
 
 	for chatMsg != "exit" {
-		//Send to server
+		// Send to server
 
-		//The message is sent if it is not empty
+		// The message is sent if it is not empty
 		if len(chatMsg) != 0 {
 			sendMsg := chatMsg + "\n"
 			_, err := client.conn.Write([]byte(sendMsg))
@@ -129,7 +135,7 @@ func (client *Client) PublicChat() {
 		fmt.Println(">>>>>Please enter the chat content, 'exit' exit.")
 		fmt.Scanln(&chatMsg)
 	}
-	//Send to server
+	// Send to server
 }
 
 func (client *Client) updateName() bool {
@@ -151,18 +157,18 @@ func (client *Client) Run() {
 		for client.menu() != true {
 		}
 
-		//Different businesses are processed according to different patterns
+		// Different businesses are processed according to different patterns
 		switch client.flag {
 		case 1:
-			//Public chat mode
+			// Public chat mode
 			client.PublicChat()
 			break
 		case 2:
-			//Private chat mode
+			// Private chat mode
 			client.PrivateChat()
 			break
 		case 3:
-			//Update user name
+			// Update user name
 			client.updateName()
 			break
 		}
@@ -172,7 +178,7 @@ func (client *Client) Run() {
 var serverIp string
 var serverPort int
 
-//./client -ip 127.0.0.1
+// ./client -ip 127.0.0.1(default) -port 8888(default)
 
 func init() {
 	flag.StringVar(&serverIp, "ip", "127.0.0.1", "Set the server ip address（default is:127.0.0.1）")
@@ -180,7 +186,7 @@ func init() {
 }
 
 func main() {
-	//Command line parsing
+	// Command line parsing
 	flag.Parse()
 
 	client := NewClient(serverIp, serverPort)
@@ -189,11 +195,11 @@ func main() {
 		return
 	}
 
-	//Open a separate goroutine to handle server receipt messages
+	// Open a separate goroutine to handle server receipt messages
 	go client.DealResponse()
 
 	fmt.Println(">>>>>Successfully connecting to the server...")
-	//Start services on the client
+	// Start services on the client
 	// select {}
 	client.Run()
 }
